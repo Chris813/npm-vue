@@ -102,9 +102,10 @@ g path {
 }
 
 .hightLightNode {
-  // stroke: steelblue;
-  fill: darkblue;
-  // stroke: darkblue;
-  stroke-width: 4px;
+  path {
+    fill: red;
+    stroke: red;
+    stroke-width: 8px;
+  }
 }
 </style>

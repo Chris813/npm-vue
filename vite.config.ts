@@ -6,9 +6,9 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 8080,
-    hmr: {
-      clientPort: 443,
-    },
+    // hmr: {
+    //   clientPort: 443,
+    // },
   },
   plugins: [vue()],
 });
