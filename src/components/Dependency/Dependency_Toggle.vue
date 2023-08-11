@@ -1,6 +1,6 @@
 <script setup>
 import * as d3 from 'd3';
-import { getTreeData } from '../utils/api';
+import { getTreeData } from '@/utils/api';
 
 import { onMounted } from 'vue';
 

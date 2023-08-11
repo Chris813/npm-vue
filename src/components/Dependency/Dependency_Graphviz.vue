@@ -6,8 +6,8 @@
 import * as d3 from 'd3';
 import * as d3Graphviz from 'd3-graphviz';
 import { onMounted, watch, ref } from 'vue';
-import { jsonToDot } from '../utils/index';
-import { getGrapgvizData } from '../utils/api';
+import { jsonToDot } from '@/utils/index';
+import { getGrapgvizData } from '@/utils/api';
 
 const getCode = async () => {
   const data = await getGrapgvizData();
