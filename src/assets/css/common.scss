@@ -1,3 +1,9 @@
+
+
+$dark-color : #575757;
+$light-color : #fdfbf5;
+$hover-color:#faf1d8;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -12,6 +18,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  --el-color-primary: #575757;
   
 }
 

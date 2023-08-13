@@ -12,6 +12,11 @@ const handleDownload = () => {
 }
 </script>
 
-<style scoped>
+<style lang='scss' scoped>
 
+.el-button {
+  background-color:$dark-color;
+  border: none;
+  color:$light-color;
+}
 </style>

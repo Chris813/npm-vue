@@ -61,5 +61,18 @@ export default defineConfig({
     alias: {
       '@': pathSrc
     }
+  },
+
+  
+  css: {
+    // css预处理器
+    preprocessorOptions: {
+      scss: {
+        // 定义全局的scss变量
+        // 给导入的路径最后加上 ; 
+        additionalData: `@import '@/assets/css/common.scss';`
+      }
+    }
   }
+  
 });
