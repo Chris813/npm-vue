@@ -1,0 +1,1 @@
+import { ModuleDetail } from "./ModuleDetail";
