@@ -1,14 +1,14 @@
-import path from 'path'
+import path from 'path';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
-const pathSrc = path.resolve(__dirname, 'src')
+const pathSrc = path.resolve(__dirname, 'src');
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -36,8 +36,7 @@ export default defineConfig({
         IconsResolver({
           prefix: 'Icon',
         }),
-      ]
-
+      ],
     }),
 
     Components({
@@ -59,20 +58,18 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': pathSrc
-    }
+      '@': pathSrc,
+    },
   },
 
-  
   css: {
     // css预处理器
     preprocessorOptions: {
       scss: {
         // 定义全局的scss变量
-        // 给导入的路径最后加上 ; 
-        additionalData: `@import '@/assets/css/common.scss';`
-      }
-    }
-  }
-  
+        // 给导入的路径最后加上 ;
+        additionalData: `@import '@/assets/css/common.scss';`,
+      },
+    },
+  },
 });
