@@ -8,7 +8,7 @@ import * as d3Graphviz from 'd3-graphviz';
 import { onMounted, watch, ref } from 'vue';
 import { jsonToDot } from '@/utils/index';
 import { getGrapgvizData } from '@/utils/api';
-
+import pubsub from 'pubsub-js';
 const getCode = async () => {
   const data = await getGrapgvizData();
   const dot = JSON.stringify(data.nocycle);
@@ -35,8 +35,8 @@ function render() {
   d3Graphviz
     .graphviz('#graph')
     .width(window.innerWidth)
-    .height(800)
-    .scale(0.5)
+    .height(window.innerHeight)
+    .scale(0.4)
     .attributer(function (d) {
       // 当节点非常多时，默认将主节点调至视口中间。 适用于数据量差不多的数据，统一调整图表视口，否则数据较少时，图表上移可视窗口会看不见
       /* const px2pt = 3 / 4;
@@ -54,7 +54,7 @@ function render() {
        *  }
        */
       // 当节点非常多时，默认将主节点调至视口中间。比例是我自己估算的， 适用于数据数量不确定，相差较大的数据
-      const childNum = 8 / 4;
+      const childNum = 8 / 5;
       if (d.tag === 'g' && d.parent.tag == 'svg') {
         if (d.children.length > 500) {
           d.translation.y = d.children.length * childNum;
@@ -66,18 +66,24 @@ function render() {
       const path = d3.selectAll('g.node');
       console.log(path);
       path.on('click', clickNode);
+      const background = d3.select('polygon');
+      background.attr('fill', '#fdfbf5');
+      const text = d3.selectAll('g.node text');
+      text
+        .style('cursor', 'pointer')
+        .attr('fill', '#555555')
+        .attr('font-family', 'Inter');
     });
 }
 
-function clickNode(event, d) {
-  event.preventDefault();
+function clickNode(event) {
   const hightlightnode = d3.select('.hightLightNode');
-
   if (hightlightnode._groups[0][0]) {
     hightlightnode.classed('hightLightNode', false);
-  } else {
-    d3.select(this).attr('class', 'hightLightNode').transition();
   }
+  d3.select(this).attr('class', 'hightLightNode').transition();
+  const packagestring = event.target.textContent;
+  pubsub.publish('clickedNode', packagestring);
 }
 const code = ref();
 onMounted(async () => {
@@ -102,9 +108,15 @@ g path {
 }
 
 .hightLightNode {
-  // stroke: steelblue;
-  fill: darkblue;
-  // stroke: darkblue;
-  stroke-width: 4px;
+  // // stroke: steelblue;
+  // fill: darkblue;
+  // // stroke: darkblue;
+  // stroke-width: 4px;
+  path {
+    fill: $highlight-color;
+  }
+  text {
+    fill: $hover-color;
+  }
 }
 </style>

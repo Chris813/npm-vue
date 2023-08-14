@@ -34,7 +34,7 @@ export function jsonToDot(dot, cycle, source) {
        * 还有很多属性，可参考下方提供的参考文档
        */
     },
-    `digraph G { ranksep = 2.0; graph [rankdir=LR,bb="0,0,412.05,372.8"];node [margin=".2,.1",fontsize=20,shape=box,height=.3, style="rounded,filled", color="#aaaaaa", fillcolor="lightsteelblue"]; edge [style=solid,arrowhead=normal,arrowtail=dot,penwidth=2]; {rank = same; "${source}"}\n`
+    `digraph G { ranksep = 2.0; graph [rankdir=LR,bb="0,0,412.05,372.8"];node [margin=".2,.1",fontsize=20,shape=box,height=.3, style="rounded,filled", color="#aaaaaa", fillcolor="#e9d1d1"]; edge [style=solid,arrowhead=normal,arrowtail=dot,penwidth=2,fillcolor="#666465"]; {rank = same; "${source}"}\n`
   );
   const cyclestring =
     Object.entries(cyclejson).reduce((acc, [node, dependencies]) => {
