@@ -50,23 +50,19 @@ export function jsonToDot(dot, cycle, source) {
           `  "${node}" -> "${dependency}"\n [arrowsize=.4, color=red, style="rounded"]`,
         acc
       );
-      /**
-       * 此处设置graph图所有点线关系的统一样式
-       * ranksep: node之间的间距
-       * graph - rankdir: 布局方向，LR从左到右，TB从上到下(默认)
-       * graph - bb: 以点为单位的绘图边界框
-       * node - margin: 节点内边距
-       * node - shape: 节点形状
-       * node - height: 节点高度
-       * node - style:  节点样式，圆角，填充色
-       * node - color:  颜色
-       * node - fillcolor:  背景填充色
-       * edge - style: 连线样式 solid实线
-       * edge - arrowhead: 连线箭头样式
-       * edge - arrowtail: 连线箭尾样式
-       * ......
-       * 还有很多属性，可参考下方提供的参考文档
-       */
     }, '') + '}';
   return dotstring + cyclestring;
+}
+
+export function formmatSize(size) {
+  const num = Number(size);
+  if (num < 1024) {
+    return `${num}B`;
+  } else if (num < 1024 * 1024) {
+    return `${(num / 1024).toFixed(2)}KB`;
+  } else if (num < 1024 * 1024 * 1024) {
+    return `${(num / 1024 / 1024).toFixed(2)}MB`;
+  } else {
+    return `${(num / 1024 / 1024 / 1024).toFixed(2)}GB`;
+  }
 }

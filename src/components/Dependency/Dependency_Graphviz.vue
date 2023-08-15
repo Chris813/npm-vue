@@ -82,8 +82,8 @@ function clickNode(event) {
     hightlightnode.classed('hightLightNode', false);
   }
   d3.select(this).attr('class', 'hightLightNode').transition();
-  const packagestring = event.target.textContent;
-  console.log('------click', packagestring)
+  const packagestring = event.target.__data__.parent.key;
+  console.log('------click', packagestring);
   pubsub.publish('clickedNode', packagestring);
 }
 const code = ref();
