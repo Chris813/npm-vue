@@ -9,13 +9,14 @@
       </div>
     </el-tab-pane>
     <el-tab-pane label="Overview" name="Overview">
-      <div class="tab_content"></div>
+      <Overview />
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <script lang="ts" setup>
 import ModuleDetail from './cpns/ModuleDetail.vue';
+import Overview from './cpns/Overview.vue';
 const activeName = ref('Module');
 import { getPackageInfo, getPackageInfoOthers } from '@/utils/api';
 import pubsub from 'pubsub-js';
@@ -77,10 +78,13 @@ const getPackageInfoDataOthers = (packageName: string) => {
 };
 onMounted(() => {
   pubsub.subscribe('clickedNode', getData);
+  if(sessionStorage.getItem('packageInfo'))
+    packageInfo.value = JSON.parse(sessionStorage.getItem('packageInfo')||'')
 });
 
 onUnmounted(() => {
   pubsub.unsubscribe('clickedNode', getData);
+  sessionStorage.setItem('packageInfo', JSON.stringify(packageInfo.value))
 });
 </script>
 

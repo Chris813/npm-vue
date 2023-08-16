@@ -40,11 +40,9 @@
           <FunctionAreas />
         </div>
       </pane>
-      <KeepAlive>
-        <pane v-if="showRight" min-size="20" size="20" class="right">
+      <pane v-if="showRight" min-size="20" size="20" class="right">
           <InfoList />
-        </pane>
-      </KeepAlive>
+      </pane>
     </splitpanes>
   </div>
 </template>

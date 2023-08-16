@@ -22,6 +22,7 @@ declare module 'vue' {
     IEpLink: typeof import('~icons/ep/link')['default']
     InfoList: typeof import('./src/components/InfoList/InfoList.vue')['default']
     ModuleDetail: typeof import('./src/components/InfoList/cpns/ModuleDetail.vue')['default']
+    Overview: typeof import('./src/components/InfoList/cpns/Overview.vue')['default']
     SizeBar: typeof import('./src/components/PackageInfo/SizeBar.vue')['default']
   }
 }
