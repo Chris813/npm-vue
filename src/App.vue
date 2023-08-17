@@ -40,7 +40,7 @@
           <FunctionAreas />
         </div>
       </pane>
-      <pane v-if="showRight" min-size="20" size="20" class="right">
+      <pane v-show="showRight" min-size="20" size="20" class="right">
           <InfoList />
       </pane>
     </splitpanes>
@@ -93,7 +93,9 @@ const handlePanel = () => {
 }
 
 .splitpanes {
+  display: flex;
   .left {
+    flex: 1;
     background-color: $light-color;
   }
   .right {

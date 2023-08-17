@@ -5,11 +5,11 @@
         No module selected. Click a module in the graph to see details.
       </div>
       <div v-else class="tab_content">
-        <ModuleDetail :packageInfo="packageInfo" />
+        <ModuleDetail :packageInfo="packageInfo" v-loading="loading" element-loading-background="#666465"/>
       </div>
     </el-tab-pane>
     <el-tab-pane label="Overview" name="Overview">
-      <Overview />
+      <Overview :graph_data="graph_data"/>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -25,6 +25,11 @@ import { ElMessage } from 'element-plus';
 import { formmatSize } from '@/utils/index.js';
 
 const packageInfo = ref<IDetail>({});
+const graph_data = ref<{
+  cycle: Record<string, string[]>
+  nocycle: Record<string, string[]>
+  source:string
+}>();
 const loading = ref(false);
 
 const getpercentage = (minified: string, gzipped: string): number => {
@@ -64,7 +69,6 @@ const getData = (_: any, packageName: string) => {
 };
 
 const getPackageInfoData = async (packageName: string) => {
-  console.log('-------packageName', packageName);
   const [name, version] = packageName.split('@');
   const data = await getPackageInfo(name, version);
   return data;
@@ -72,25 +76,26 @@ const getPackageInfoData = async (packageName: string) => {
 
 const getPackageInfoDataOthers = (packageName: string) => {
   const [name, version] = packageName.split('@');
-  console.log('-----name', name);
   const data = getPackageInfoOthers(name);
   return data;
 };
 onMounted(() => {
   pubsub.subscribe('clickedNode', getData);
-  if(sessionStorage.getItem('packageInfo'))
-    packageInfo.value = JSON.parse(sessionStorage.getItem('packageInfo')||'')
+  pubsub.subscribe('graph_data',(_: any, data:any)=>{
+    graph_data.value = data
+  })
 });
 
 onUnmounted(() => {
-  pubsub.unsubscribe('clickedNode', getData);
-  sessionStorage.setItem('packageInfo', JSON.stringify(packageInfo.value))
+  pubsub.unsubscribe('clickedNode');
+  pubsub.subscribe('graph_data')
 });
 </script>
 
 <style lang="scss">
 .el-tabs {
   margin-left: -1vw;
+  padding: 0 5px;
   --el-tabs-header-height: 30px;
   color: $light-color;
 
@@ -109,9 +114,5 @@ onUnmounted(() => {
       }
     }
   }
-}
-
-.tab_content {
-  padding: 0 5px 0 5px;
 }
 </style>

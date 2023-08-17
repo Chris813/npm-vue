@@ -18,3 +18,10 @@ export type IDetail = {
   size?: ISize;
   percent?: number;
 };
+
+/**图数据 */
+export type IGraph = {
+  cycle: Record<string, string[]>
+  nocycle: Record<string, string[]>
+  source:string
+}

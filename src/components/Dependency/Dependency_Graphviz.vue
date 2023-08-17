@@ -11,6 +11,8 @@ import { getGrapgvizData } from '@/utils/api';
 import pubsub from 'pubsub-js';
 const getCode = async () => {
   const data = await getGrapgvizData();
+  console.log('-----pub', data)
+  pubsub.publish('graph_data', data)
   const dot = JSON.stringify(data.nocycle);
   const cycle = JSON.stringify(data.cycle);
   const codeString = jsonToDot(dot, cycle, data.source);

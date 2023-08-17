@@ -25,4 +25,7 @@ declare module 'vue' {
     Overview: typeof import('./src/components/InfoList/cpns/Overview.vue')['default']
     SizeBar: typeof import('./src/components/PackageInfo/SizeBar.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }
