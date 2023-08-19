@@ -67,9 +67,20 @@ export function formmatSize(size) {
   }
 }
 
-export function handelSvgZoom(svg, zoomClassName) {
+export function getTranslate(svg, zoomClassName) {
+  let zoomObj = svg.getElementsByClassName(zoomClassName.replace(/\./g, ''))[0];
+  const transformMath = zoomObj.getAttribute('transform');
+  if (transformMath) {
+    const transformObj = transformMath.match(/translate\(([^,]*),([^,)]*)\)/);
+    const translateX = transformObj[1];
+    const translateY = transformObj[2];
+    return { translateX, translateY };
+  }
+}
+export function handelSvgZoom(svg, zoomClassName, translate) {
   //得到svg的真实大小
   const graph = document.querySelector('#graph');
+  console.log(graph);
   const box = graph.getBoundingClientRect();
   //查找zoomObj
   let zoomObj = svg.getElementsByClassName(zoomClassName.replace(/\./g, ''))[0];
@@ -79,23 +90,23 @@ export function handelSvgZoom(svg, zoomClassName) {
     return false;
   }
   /*------这里是处理svg缩放的--------*/
-  let translateX = 0;
-  let translateY = 0;
+
   let scale = 1;
-  const transformMath = zoomObj.getAttribute('transform'),
-    scaleMath = zoomObj.getAttribute('transform');
-  if (transformMath || scaleMath) {
-    const transformObj = transformMath.match(/translate\(([^,]*),([^,)]*)\)/),
-      scaleObj = scaleMath.match(/scale\((.*)\)/);
-    if (transformObj || scaleObj) {
+  //获取缩放比例
+  const scaleMath = zoomObj.getAttribute('transform');
+  if (scaleMath) {
+    const scaleObj = scaleMath.match(/scale\((.*)\)/);
+    if (scaleObj) {
       //匹配到缩放
-      translateX = transformObj[1];
-      translateY = transformObj[2];
       scale = scaleObj[1];
+      console.log(`scale:${scale}`);
     }
   }
+  console.log(
+    `box.width:${box.width},box.height:${box.height},zoombox.width:${zoombox.width},zoombox.height:${zoombox.height}`
+  );
   const scaleX = (box.width / zoombox.width) * scale;
-  const scaleY = (box.height / zoombox.height) * scale;
+  const scaleY = ((box.height * 0.9) / zoombox.height) * scale;
   const scalenum = scaleX > scaleY ? scaleY : scaleX;
   console.log(scalenum);
   /*----------------------------------*/
@@ -108,9 +119,35 @@ export function handelSvgZoom(svg, zoomClassName) {
 
   newtransform.setAttribute(
     'transform',
-    `translate(${translateX},${translateY}) scale(${scalenum})`
+    `translate(${translate.translateX},${translate.translateY}) scale(${scalenum})`
   );
-  zoombox = zoomObj.getBoundingClientRect();
+  // zoomObj.setAttribute(
+  //   'transform',
+  //   `translate(${translate.translateX},${translate.translateY}) scale(${scalenum})`
+  // );
+  const newtransformbox = newtransform.getBoundingClientRect();
+  const percent = 33 / 17;
+  const fittranslateY =
+    parseFloat(translate.translateY) +
+    (parseFloat(box.top) - parseFloat(newtransformbox.top)) * percent;
+
+  // console.log(
+  //   `translateY:${parseFloat(translate.translateY)},box.y:${parseFloat(
+  //     box.top
+  //   )},zoombox.y:${parseFloat(zoombox.top)},percent:${percent}`
+  // );
+  // console.log(`fittranslateY:${fittranslateY}`);
+  // zoomObj.setAttribute(
+  //   'transform',
+  //   `translate(${translate.translateX},${fittranslateY}) scale(${scalenum})`
+  // );
+  newtransform.setAttribute(
+    'transform',
+    `translate(${translate.translateX},${fittranslateY}) scale(${scalenum})`
+  );
+
+  /*-------------清楚缩放元素的缩放-------------*/
+
   return node;
 }
 

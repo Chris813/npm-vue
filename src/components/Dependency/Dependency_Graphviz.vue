@@ -81,6 +81,7 @@ function render() {
         .style('cursor', 'pointer')
         .attr('fill', '#555555')
         .attr('font-family', 'Inter');
+      pubsub.publish('renderDone', true);
     });
 }
 
