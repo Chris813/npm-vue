@@ -10,11 +10,14 @@ declare module 'vue' {
     Dependency: typeof import('./src/components/Dependency/Dependency.vue')['default']
     Dependency_Graphviz: typeof import('./src/components/Dependency/Dependency_Graphviz.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCol: typeof import('element-plus/es')['ElCol']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElLink: typeof import('element-plus/es')['ElLink']
+    ElRow: typeof import('element-plus/es')['ElRow']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTag: typeof import('element-plus/es')['ElTag']
     FunctionAreas: typeof import('./src/components/FunctionAreas/FunctionAreas.vue')['default']
     IEpCaretLeft: typeof import('~icons/ep/caret-left')['default']
     IEpCaretRight: typeof import('~icons/ep/caret-right')['default']
@@ -22,7 +25,6 @@ declare module 'vue' {
     InfoList: typeof import('./src/components/InfoList/InfoList.vue')['default']
     ModuleDetail: typeof import('./src/components/InfoList/cpns/ModuleDetail.vue')['default']
     Overview: typeof import('./src/components/InfoList/cpns/Overview.vue')['default']
-    SizeBar: typeof import('./src/components/PackageInfo/SizeBar.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

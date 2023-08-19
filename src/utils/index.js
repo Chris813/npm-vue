@@ -115,7 +115,7 @@ export function handelSvgZoom(svg, zoomClassName) {
 }
 
 export function getPort() {
-  const url = window.location.href;
-  const port = url.split('/')[3];
+  const port = location.port;
+  console.log('---port',port)
   return port;
 }

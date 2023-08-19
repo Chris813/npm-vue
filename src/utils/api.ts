@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function getGrapgvizData(port: number) {
+export async function getGrapgvizData(port: string) {
   const url = `http://localhost:${port}/getGraphvizData`;
   console.log(url);
   const data = await axios.get(url);
@@ -20,3 +20,10 @@ export async function getPackageInfoOthers(packageName: string) {
   const data = await axios.get(`${rootUrl}${packageName}`);
   return data.data;
 }
+
+export async function getVersionPackage(port: string) {
+  const url = `http://localhost:${port}/getVersionPackage`;
+  const data = await axios.get(url);
+  return data.data;
+}
+

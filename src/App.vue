@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <splitpanes class="splitpanes">
-      <pane min-size="70" class="left">
+      <pane min-size="60" class="left">
         <div class="header">
           <svg
             width="30"
@@ -100,6 +100,7 @@ const handlePanel = () => {
   }
   .right {
     background-color: $dark-color;
+    overflow-y: auto;
   }
 
   &__pane {

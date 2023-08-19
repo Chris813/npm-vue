@@ -3,8 +3,7 @@
     <div class="title">
       {{ packageInfo.title }}
     </div>
-    <div class="desc">
-      {{ packageInfo.desc }}
+    <div v-html="packageInfo.desc" class="desc">
     </div>
     <div class="link">
       <div v-for="(link, name) in packageInfo.link" :key="name">

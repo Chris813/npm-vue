@@ -1,10 +1,13 @@
 <template id="fold-panel">
   <el-tabs v-model="activeName" type="card" class="tabs">
     <el-tab-pane label="Module" name="Module">
-      <div v-if="!packageInfo.title" class="tab_content">
+      <div v-if="!packageInfo.title && isFirst" class="tab_content">
         No module selected. Click a module in the graph to see details.
       </div>
-      <div v-else class="tab_content">
+      <div v-if="!packageInfo.title && !isFirst">
+       Sorry! Module not found.
+      </div>
+      <div v-if="packageInfo.title" class="tab_content">
         <ModuleDetail
           :packageInfo="packageInfo"
           v-loading="loading"
@@ -22,19 +25,15 @@
 import ModuleDetail from './cpns/ModuleDetail.vue';
 import Overview from './cpns/Overview.vue';
 const activeName = ref('Module');
-import { getPackageInfo, getPackageInfoOthers } from '@/utils/api';
+import { getPackageInfo, getPackageInfoOthers } from '../../utils/api';
 import pubsub from 'pubsub-js';
-import { IDetail } from './type';
-import { ElMessage } from 'element-plus';
-import { formmatSize } from '@/utils/index.js';
+import { IDetail, IGraph } from './type';
+import { formmatSize } from '../../utils/index.js';
 
 const packageInfo = ref<IDetail>({});
-const graph_data = ref<{
-  cycle: Record<string, string[]>;
-  nocycle: Record<string, string[]>;
-  source: string;
-}>();
+const graph_data = ref<IGraph>();
 const loading = ref(false);
+const isFirst = ref(true);
 
 const getpercentage = (minified: string, gzipped: string): number => {
   const total = Number(minified) + Number(gzipped);
@@ -42,6 +41,7 @@ const getpercentage = (minified: string, gzipped: string): number => {
 };
 
 const getData = (_: any, packageName: string) => {
+  isFirst.value = false;
   loading.value = true;
   Promise.all([
     getPackageInfoData(packageName),
@@ -61,25 +61,30 @@ const getData = (_: any, packageName: string) => {
         },
         percent: getpercentage(res[0]?.size, res[0]?.gzip),
       };
-      console.log(res);
+      console.log('1111', res);
     })
     .catch((err) => {
+      packageInfo.value = {}
       console.log(`${err} Sorry. Please try again!`);
-      ElMessage(`Sorry. Please try again!`);
     })
     .finally(() => {
       loading.value = false;
     });
 };
 
-const getPackageInfoData = async (packageName: string) => {
-  const [name, version] = packageName.split('@');
+const getPackageInfoData = async (packageName: string) => {  
+  const name = packageName.slice(0,packageName.lastIndexOf('@'));
+  const version = packageName.slice(packageName.lastIndexOf('@')+1);
+  console.log('----name,version',name,version)
   const data = await getPackageInfo(name, version);
   return data;
 };
 
 const getPackageInfoDataOthers = (packageName: string) => {
-  const [name, version] = packageName.split('@');
+  let name = packageName.slice(0,packageName.lastIndexOf('@'));
+  if(name.includes('/'))
+    name = name.replace(/\//g,'%2F');
+  console.log('----name',name)
   const data = getPackageInfoOthers(name);
   return data;
 };
@@ -92,7 +97,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   pubsub.unsubscribe('clickedNode');
-  pubsub.subscribe('graph_data');
+  pubsub.unsubscribe('graph_data');
 });
 </script>
 
