@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-export async function getGrapgvizData() {
-  const data = await axios.get('http://localhost:3000/getGraphvizData');
+export async function getGrapgvizData(port: number) {
+  const url = `http://localhost:${port}/getGraphvizData`;
+  console.log(url);
+  const data = await axios.get(url);
   return data.data;
 }
 
@@ -15,10 +17,6 @@ export async function getPackageInfo(packageName: string, version: string) {
 
 export async function getPackageInfoOthers(packageName: string) {
   const rootUrl = 'https://api.npms.io/v2/package/';
-  const data = await axios.get(
-    `${rootUrl}${packageName}`
-  );
+  const data = await axios.get(`${rootUrl}${packageName}`);
   return data.data;
 }
-
-

@@ -67,39 +67,13 @@ export function formmatSize(size) {
   }
 }
 
-// const downloadSvgFn = function(svg) {
-//   var serializer = new XMLSerializer()
-//   var source = '<?xml version="1.0" standalone="no"?>\r\n' + serializer.serializeToString(svg)
-//   var image = new Image()
-//   image.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source)
-//   image.onload = function() {
-//       var width = this.naturalWidth,
-//           height = this.naturalHeight;
-//       console.log(width, height);
-//       var canvas = document.createElement('canvas')
-//       canvas.width = width;
-//       canvas.height = height;
-//       var context = canvas.getContext('2d');
-//       context.rect(0, 0, width, height);
-//       context.fillStyle = '#fff';
-//       context.fill();
-//       context.drawImage(image, 0, 0);
-//       var imgSrc = canvas.toDataURL("image/jpg", 1);
-//       var blob = dataURLtoBlob(imgSrc);
-//       downloadFile('svg.jpg', blob);
-//   }
-// }
-
 export function handelSvgZoom(svg, zoomClassName) {
   //得到svg的真实大小
   const graph = document.querySelector('#graph');
-  console.log(graph);
   const box = graph.getBoundingClientRect();
   //查找zoomObj
   let zoomObj = svg.getElementsByClassName(zoomClassName.replace(/\./g, ''))[0];
-  console.log(zoomObj);
   let zoombox = zoomObj.getBoundingClientRect();
-  console.log(zoombox.x, zoombox.y);
   if (!zoomObj) {
     alert('zoomObj不存在');
     return false;
@@ -118,9 +92,6 @@ export function handelSvgZoom(svg, zoomClassName) {
       translateX = transformObj[1];
       translateY = transformObj[2];
       scale = scaleObj[1];
-      console.log(
-        `translateX:${translateX},translateY:${translateY},scale:${scale}`
-      );
     }
   }
   const scaleX = (box.width / zoombox.width) * scale;
@@ -140,12 +111,11 @@ export function handelSvgZoom(svg, zoomClassName) {
     `translate(${translateX},${translateY}) scale(${scalenum})`
   );
   zoombox = zoomObj.getBoundingClientRect();
-  console.log(`x:${zoombox.x},y:${zoombox.y}`);
-
-  /*-------------清楚缩放元素的缩放-------------*/
-  // zoomObj.setAttribute(
-  //   'transform',
-  //   `translate(${translateX},${translateY}) scale(${scalenum})`
-  // );
   return node;
+}
+
+export function getPort() {
+  const url = window.location.href;
+  const port = url.split('/')[3];
+  return port;
 }

@@ -15,7 +15,6 @@ declare module 'vue' {
     ElLink: typeof import('element-plus/es')['ElLink']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
-    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     FunctionAreas: typeof import('./src/components/FunctionAreas/FunctionAreas.vue')['default']
     IEpCaretLeft: typeof import('~icons/ep/caret-left')['default']
     IEpCaretRight: typeof import('~icons/ep/caret-right')['default']

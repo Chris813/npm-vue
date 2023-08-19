@@ -6,13 +6,19 @@
 import * as d3 from 'd3';
 import * as d3Graphviz from 'd3-graphviz';
 import { onMounted, watch, ref } from 'vue';
-import { jsonToDot } from '@/utils/index';
+import { jsonToDot, getPort } from '@/utils/index';
 import { getGrapgvizData } from '@/utils/api';
 import pubsub from 'pubsub-js';
+// import { useRoute } from 'vue-router';
+
+// const route = useRoute();
+// const port = route.params.port;
+
+const port = ref(0);
 const getCode = async () => {
-  const data = await getGrapgvizData();
-  console.log('-----pub', data)
-  pubsub.publish('graph_data', data)
+  port.value = getPort();
+  const data = await getGrapgvizData(port.value);
+  pubsub.publish('graph_data', data);
   const dot = JSON.stringify(data.nocycle);
   const cycle = JSON.stringify(data.cycle);
   const codeString = jsonToDot(dot, cycle, data.source);
@@ -30,7 +36,7 @@ const getCode = async () => {
 //   },
 // });
 // console.log(props);
-
+console.log(window.innerHeight);
 function render() {
   // scale 缩放比例
   // fit(true) 自适应缩放，当节点比较多时可以显示完成的图，但是会看不清楚，节点较少时，会很大，慎用！！默认值false

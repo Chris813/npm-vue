@@ -5,11 +5,15 @@
         No module selected. Click a module in the graph to see details.
       </div>
       <div v-else class="tab_content">
-        <ModuleDetail :packageInfo="packageInfo" v-loading="loading" element-loading-background="#666465"/>
+        <ModuleDetail
+          :packageInfo="packageInfo"
+          v-loading="loading"
+          element-loading-background="#666465"
+        />
       </div>
     </el-tab-pane>
     <el-tab-pane label="Overview" name="Overview">
-      <Overview :graph_data="graph_data"/>
+      <Overview :graph_data="graph_data" />
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -26,9 +30,9 @@ import { formmatSize } from '@/utils/index.js';
 
 const packageInfo = ref<IDetail>({});
 const graph_data = ref<{
-  cycle: Record<string, string[]>
-  nocycle: Record<string, string[]>
-  source:string
+  cycle: Record<string, string[]>;
+  nocycle: Record<string, string[]>;
+  source: string;
 }>();
 const loading = ref(false);
 
@@ -81,14 +85,14 @@ const getPackageInfoDataOthers = (packageName: string) => {
 };
 onMounted(() => {
   pubsub.subscribe('clickedNode', getData);
-  pubsub.subscribe('graph_data',(_: any, data:any)=>{
-    graph_data.value = data
-  })
+  pubsub.subscribe('graph_data', (_: any, data: any) => {
+    graph_data.value = data;
+  });
 });
 
 onUnmounted(() => {
   pubsub.unsubscribe('clickedNode');
-  pubsub.subscribe('graph_data')
+  pubsub.subscribe('graph_data');
 });
 </script>
 
