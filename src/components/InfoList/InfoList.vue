@@ -41,7 +41,6 @@ const getpercentage = (minified: string, gzipped: string): number => {
 };
 
 const getData = (_: any, packageName: string) => {
-  isFirst.value = false;
   loading.value = true;
   Promise.all([
     getPackageInfoData(packageName),
@@ -69,6 +68,7 @@ const getData = (_: any, packageName: string) => {
     })
     .finally(() => {
       loading.value = false;
+      isFirst.value = false;
     });
 };
 

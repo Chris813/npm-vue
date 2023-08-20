@@ -1,16 +1,21 @@
 <template>
-    <div class="title" :class="hasCycle? 'red': 'green'">
-        {{ hasCycle? "Cyclic dependency!" : "No Cyclic dependency!"}}
-    </div>
-    <el-divider />
-    <div class="title"> Multi-version Packages: </div>
-      <div class="multi">
-        <el-row v-for="(value,key) in multiVersionList" :key="key">
-          <el-tag v-for="item in value" :key="item">
-            {{ item }}
-          </el-tag>
+  <div class="title" :class="hasCycle ? 'red' : 'green'">
+    {{ hasCycle ? "Cyclic dependency!" : "No Cyclic dependency!" }}
+  </div>
+  <el-divider />
+  <div class="multi">
+    <div v-if="multiVersionList.length">
+      <div class="title"> Multi-version Packages: </div>
+      <el-row v-for="(value, key) in multiVersionList" :key="key">
+        <el-tag v-for="item in value" :key="item">
+          {{ item }}
+        </el-tag>
       </el-row>
     </div>
+    <div v-else class="title">
+      No multi-version Packages
+    </div>
+  </div>
 </template>
 
 <script lang='ts' setup>
@@ -22,21 +27,21 @@ const props = defineProps<{
   graph_data?: IGraph
 }>()
 
-const hasCycle = computed(()=>{
+const hasCycle = computed(() => {
   const cycleList = props.graph_data?.cycle;
-  for(let k in cycleList){
-    if(cycleList[k].length>0) return true;
+  for (let k in cycleList) {
+    if (cycleList[k].length > 0) return true;
   }
   return false;
 })
 
 //TODO: 多版本的包
 const multiVersionList = ref<any[]>([])
-onMounted(async ()=>{
+onMounted(async () => {
   const port = getPort()
   const res = await getVersionPackage(port)
-  for(let pkg in res){
-    const pkg_version = res[pkg].map((v:string)=>`${pkg}@${v}`)
+  for (let pkg in res) {
+    const pkg_version = res[pkg].map((v: string) => `${pkg}@${v}`)
     multiVersionList.value.push(pkg_version)
   }
 })
@@ -52,9 +57,10 @@ onMounted(async ()=>{
   }
 }
 
-.multi{
+.multi {
   margin-top: 10px;
 }
+
 .el-row {
   margin-bottom: 8px;
 }
@@ -62,11 +68,12 @@ onMounted(async ()=>{
 .title {
   font-weight: 800;
 }
+
 .green {
   color: rgb(158, 243, 31);
 }
 
 .red {
-  color:rgb(249, 66, 0);
+  color: rgb(249, 66, 0);
 }
 </style>

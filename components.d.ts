@@ -10,7 +10,6 @@ declare module 'vue' {
     Dependency: typeof import('./src/components/Dependency/Dependency.vue')['default']
     Dependency_Graphviz: typeof import('./src/components/Dependency/Dependency_Graphviz.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
-    ElCol: typeof import('element-plus/es')['ElCol']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElLink: typeof import('element-plus/es')['ElLink']
